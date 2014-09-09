@@ -1,0 +1,21 @@
+{
+    "name": "Reflectionist",
+    "authors": [
+        {
+            "name": "Lauri Orgla",
+            "email": "TheOrX@hotmail.com",
+            "homepage": "http://www.lauri.guru",
+            "role": "Lead Developer"
+        }
+    ],
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Reflectionist\\": "library/Reflectionist/"
+        },
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    }
+}
