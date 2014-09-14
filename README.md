@@ -1,4 +1,4 @@
 Reflectionist
 =============
 
-Reflectionist is alibrary for analyzing a php class file.
+Reflectionist is a library for analyzing a php class file.
