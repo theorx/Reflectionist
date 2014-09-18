@@ -13,7 +13,7 @@
     "autoload": {
         "psr-4": {
             "Reflectionist\\": "library/Reflectionist/"
-        },
+        }
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*"

@@ -12,7 +12,11 @@ class ClassParser extends AbstractParser {
 	/**
 	 * @var null
 	 */
-	private $result = null;
+	private $result = [
+		'class'      => null,
+		'methods'    => null,
+		'properties' => null
+	];
 
 	/**
 	 * @var null
@@ -29,15 +33,22 @@ class ClassParser extends AbstractParser {
 	 */
 	private $propertyParser = null;
 
+	/**
+	 * @var null
+	 */
+	private $constantParser = null;
+
 
 	/**
 	 * @param FunctionParser $functionParser
 	 * @param PropertyParser $propertyParser
+	 * @param ConstantParser $constantParser
 	 */
-	public function __construct(FunctionParser $functionParser = null, PropertyParser $propertyParser = null) {
+	public function __construct(FunctionParser $functionParser = null, PropertyParser $propertyParser = null, ConstantParser $constantParser) {
 
 		$this->setFunctionParser($functionParser);
 		$this->setPropertyParser($propertyParser);
+		$this->setConstantParser($constantParser);
 	}
 
 	/**
@@ -45,6 +56,7 @@ class ClassParser extends AbstractParser {
 	 */
 	public function parse() {
 
+		$result = [];
 		//do some exception handling, when class is not found.. or something
 		if (!class_exists($this->getClass(), true)) {
 			throw new ClassException($this->getClass());
@@ -52,20 +64,22 @@ class ClassParser extends AbstractParser {
 
 		$reflection = new \ReflectionClass($this->getClass());
 
-		print_r($reflection);
-		//get all defaultProperties
-		//get property accessor
-		//get property docblock and parse it
-		//get property default value
+		foreach ($reflection->getMethods() as $method) {
+			$result['methods'][$method->name] = $this->getFunctionParser()->setFunction($method)->parse()->getResult();
+		}
+
+		foreach ($reflection->getProperties() as $property) {
+			$result['properties'][$property->name] = $this->getPropertyParser()->setProperty($property)->parse()->getResult();
+		}
+
+		foreach ($reflection->getConstants() as $constantName => $constantValue) {
+			$result['constants'][$constantName] = $this->getConstantParser()->setConstant([$constantName => $constantValue])->parse()->getResult();
+		}
 
 
-		//get all methods
-		//get method docblock and parse it
-		//get method accessor
-		//get method arguments
-		//get argument default value and typehint
+		$this->setResult($result);
 
-		return $reflection;
+		return $this;
 	}
 
 	/**
@@ -121,7 +135,7 @@ class ClassParser extends AbstractParser {
 	}
 
 	/**
-	 * @param null $result
+	 * @param mixed $result
 	 */
 	public function setResult($result) {
 
@@ -129,11 +143,27 @@ class ClassParser extends AbstractParser {
 	}
 
 	/**
-	 * @return null
+	 * @return mixed
 	 */
 	public function getResult() {
 
 		return $this->result;
+	}
+
+	/**
+	 * @param ConstantParser $constantParser
+	 */
+	public function setConstantParser($constantParser) {
+
+		$this->constantParser = $constantParser;
+	}
+
+	/**
+	 * @return ConstantParser
+	 */
+	public function getConstantParser() {
+
+		return $this->constantParser;
 	}
 
 }

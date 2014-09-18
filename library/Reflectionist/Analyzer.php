@@ -48,17 +48,8 @@ class Analyzer {
 		//gets class parser
 
 		foreach ($this->getClasses() as $class) {
-			echo $class;
-			$result = [];
-			try {
-				$result = $this->getClassParser()->setClass($class)->parse();
-			} catch (\Exception $e) {
-				echo "Exception..";
-				print_r($e);
-			} finally {
-				echo "Finally..";
-				print_r($result);
-			}
+			$result   = [];
+			$result[] = $this->getClassParser()->setClass($class)->parse()->getResult();
 		}
 
 
