@@ -29,12 +29,38 @@ class ParameterParser extends AbstractParser {
 	 */
 	public function parse() {
 
-		echo "			 [" . $this->getParameter()->getName() . "][" . (($this->getParameter()->isOptional()==true)?'Optional':'Required') . "]" . PHP_EOL;
+		echo "			 [" .
+			$this->getTypeHint() . "][" .
+			$this->getParameter()->getName() . "][" .
+			(($this->getParameter()->isOptional() == true) ? 'Optional' : 'Required') .
+			"]" . PHP_EOL;
 		$this->setResult($this->getParameter());
+
+		//parse DocBlock
 
 		return $this;
 	}
 
+	/**
+	 * @return null|string
+	 */
+	public function getTypeHint() {
+
+		$type = null;
+		if ($this->getParameter()->isArray()) {
+			$type = 'Array';
+		}
+
+		if ($this->getParameter()->isCallable()) {
+			$type = 'Callable';
+		}
+
+		if (is_object($this->getParameter()->getClass())) {
+			$type = $this->getParameter()->getClass()->getName();
+		}
+
+		return $type;
+	}
 
 	/**
 	 * @param $parameter

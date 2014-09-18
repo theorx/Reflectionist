@@ -74,6 +74,12 @@ class ClassParser extends AbstractParser {
 		}
 
 		$reflection = new \ReflectionClass($this->getClass());
+
+		//parse class docblock also
+
+		$result['class']['name']     = $reflection->getName();
+		$result['class']['docBlock'] = $reflection->getDocComment();
+
 		foreach ($reflection->getConstants() as $constantName => $constantValue) {
 			$result['constants'][$constantName] = $this->getConstantParser()->setConstant([$constantName => $constantValue])->parse()->getResult();
 		}

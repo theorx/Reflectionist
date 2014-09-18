@@ -8,7 +8,6 @@ namespace Reflectionist;
  */
 class Analyzer {
 
-
 	/**
 	 * @var array
 	 */
@@ -46,12 +45,13 @@ class Analyzer {
 	public function analyze() {
 
 		//gets class parser
-
+		$result = [];
 		foreach ($this->getClasses() as $class) {
-			$result   = [];
+
 			$result[] = $this->getClassParser()->setClass($class)->parse()->getResult();
 		}
 
+		print_r($result);
 
 		//gets all files
 		//gets all classes

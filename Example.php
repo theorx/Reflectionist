@@ -95,7 +95,7 @@ namespace E {
 		/**
 		 *
 		 */
-		 static function pubstatfun() {
+		static function pubstatfun() {
 
 		}
 
@@ -122,9 +122,9 @@ namespace E {
 		}
 
 		/**
-		 * @param null $private_with_value
+		 * @param array|null $private_with_value
 		 */
-		public function setPrivateWithValue($private_with_value) {
+		public function setPrivateWithValue(array $private_with_value) {
 
 			$this->private_with_value = $private_with_value;
 		}
@@ -138,9 +138,9 @@ namespace E {
 		}
 
 		/**
-		 * @param array $private_with_value_arr
+		 * @param array|callable $private_with_value_arr
 		 */
-		public function setPrivateWithValueArr($private_with_value_arr) {
+		public function setPrivateWithValueArr(callable $private_with_value_arr) {
 
 			$this->private_with_value_arr = $private_with_value_arr;
 		}
@@ -156,7 +156,7 @@ namespace E {
 		/**
 		 * @param mixed $protected_no_value
 		 */
-		public function setProtectedNoValue($protected_no_value) {
+		public function setProtectedNoValue(\E\Example $protected_no_value = null) {
 
 			$this->protected_no_value = $protected_no_value;
 		}
