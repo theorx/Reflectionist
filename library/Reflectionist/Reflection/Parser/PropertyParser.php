@@ -2,10 +2,6 @@
 
 namespace Reflectionist\Reflection\Parser;
 
-	/**
-	 * Class PropertyParser
-	 * @package Reflectionist\Reflection\Parser
-	 */
 /**
  * Class PropertyParser
  * @package Reflectionist\Reflection\Parser
@@ -33,7 +29,7 @@ class PropertyParser extends AbstractParser {
 	 */
 	public function parse() {
 
-		echo "Property [" . $this->getAccessType() . "][" . $this->getProperty()->getName() . "]" . PHP_EOL;
+		echo "	Property [" . $this->getAccessType() . "][" . $this->getProperty()->getName() . "]" . PHP_EOL;
 		$this->setResult($this->getProperty());
 
 		return $this;

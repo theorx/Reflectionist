@@ -24,31 +24,42 @@ class ClassParser extends AbstractParser {
 	private $class = null;
 
 	/**
-	 * @var null
+	 * @var FunctionParser
 	 */
 	private $functionParser = null;
 
 	/**
-	 * @var null
+	 * @var PropertyParser
 	 */
 	private $propertyParser = null;
 
 	/**
-	 * @var null
+	 * @var ConstantParser
 	 */
 	private $constantParser = null;
+	/**
+	 * @var ParameterParser
+	 */
+	private $parameterParser = null;
 
 
 	/**
-	 * @param FunctionParser $functionParser
-	 * @param PropertyParser $propertyParser
-	 * @param ConstantParser $constantParser
+	 * @param FunctionParser  $functionParser
+	 * @param PropertyParser  $propertyParser
+	 * @param ConstantParser  $constantParser
+	 * @param ParameterParser $parameterParser
 	 */
-	public function __construct(FunctionParser $functionParser = null, PropertyParser $propertyParser = null, ConstantParser $constantParser) {
+	public function __construct(
+		FunctionParser $functionParser,
+		PropertyParser $propertyParser,
+		ConstantParser $constantParser,
+		ParameterParser $parameterParser
+	) {
 
 		$this->setFunctionParser($functionParser);
 		$this->setPropertyParser($propertyParser);
 		$this->setConstantParser($constantParser);
+		$this->setParameterParser($parameterParser);
 	}
 
 	/**
@@ -63,18 +74,25 @@ class ClassParser extends AbstractParser {
 		}
 
 		$reflection = new \ReflectionClass($this->getClass());
-
-		foreach ($reflection->getMethods() as $method) {
-			$result['methods'][$method->name] = $this->getFunctionParser()->setFunction($method)->parse()->getResult();
+		foreach ($reflection->getConstants() as $constantName => $constantValue) {
+			$result['constants'][$constantName] = $this->getConstantParser()->setConstant([$constantName => $constantValue])->parse()->getResult();
 		}
+		echo PHP_EOL;
 
 		foreach ($reflection->getProperties() as $property) {
 			$result['properties'][$property->name] = $this->getPropertyParser()->setProperty($property)->parse()->getResult();
 		}
+		echo PHP_EOL;
 
-		foreach ($reflection->getConstants() as $constantName => $constantValue) {
-			$result['constants'][$constantName] = $this->getConstantParser()->setConstant([$constantName => $constantValue])->parse()->getResult();
+		foreach ($reflection->getMethods() as $method) {
+			$result['methods'][$method->name]['method'] = $this->getFunctionParser()->setFunction($method)->parse()->getResult();
+			foreach ($method->getParameters() as $parameter) {
+				$result['methods'][$method->name]['parameters'] = [
+					$parameter->getName() => $this->getParameterParser()->setParameter($parameter)->parse()->getResult()
+				];
+			}
 		}
+		echo PHP_EOL;
 
 
 		$this->setResult($result);
@@ -164,6 +182,22 @@ class ClassParser extends AbstractParser {
 	public function getConstantParser() {
 
 		return $this->constantParser;
+	}
+
+	/**
+	 * @param \Reflectionist\Reflection\Parser\ParameterParser $parameterParser
+	 */
+	public function setParameterParser($parameterParser) {
+
+		$this->parameterParser = $parameterParser;
+	}
+
+	/**
+	 * @return \Reflectionist\Reflection\Parser\ParameterParser
+	 */
+	public function getParameterParser() {
+
+		return $this->parameterParser;
 	}
 
 }

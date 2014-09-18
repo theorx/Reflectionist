@@ -3,6 +3,10 @@
 
 namespace Reflectionist\Reflection\Parser;
 
+/**
+ * Class FunctionParser
+ * @package Reflectionist\Reflection\Parser
+ */
 class FunctionParser extends AbstractParser {
 	/**
 	 * @var mixed
@@ -18,7 +22,8 @@ class FunctionParser extends AbstractParser {
 	 */
 	public function parse() {
 
-		echo "Function [" . $this->getAccessType() . "]" . "[" . $this->getFunction()->getName() . "]" . PHP_EOL;
+		echo "		Function [" . $this->getAccessType() . "]" . "[" . $this->getFunction()->getName() . "]" . PHP_EOL;
+
 
 		/*
 		$result['methods'][$method->name] = [

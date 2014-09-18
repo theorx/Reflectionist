@@ -2,6 +2,10 @@
 
 namespace Reflectionist\Reflection\Parser;
 
+/**
+ * Class ConstantParser
+ * @package Reflectionist\Reflection\Parser
+ */
 class ConstantParser extends AbstractParser {
 	/**
 	 * @var mixed
@@ -17,7 +21,7 @@ class ConstantParser extends AbstractParser {
 	 */
 	public function parse() {
 
-		echo "Constant [" . key($this->getConstant()) . "]" . PHP_EOL;
+		echo "	Constant [" . key($this->getConstant()) . "]" . PHP_EOL;
 
 		$this->setResult($this->getConstant());
 
