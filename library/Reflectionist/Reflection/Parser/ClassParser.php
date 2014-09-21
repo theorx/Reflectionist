@@ -2,24 +2,23 @@
 namespace Reflectionist\Reflection\Parser;
 
 use Reflectionist\Exception\ClassException;
+use Reflectionist\Factory\Factory;
 
 /**
  * Class ClassParser
+ *
+ * @author  Lauri Orgla <TheOrX@hotmail.com>
  * @package Reflectionist\Reflection\Parser
  */
 class ClassParser extends AbstractParser {
 
 	/**
-	 * @var null
+	 * @var mixed
 	 */
-	private $result = [
-		'class'      => null,
-		'methods'    => null,
-		'properties' => null
-	];
+	private $result = [];
 
 	/**
-	 * @var null
+	 * @var object
 	 */
 	private $class = null;
 
@@ -44,6 +43,8 @@ class ClassParser extends AbstractParser {
 
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @param FunctionParser  $functionParser
 	 * @param PropertyParser  $propertyParser
 	 * @param ConstantParser  $constantParser
@@ -63,43 +64,23 @@ class ClassParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @throws \Reflectionist\Exception\ClassException
 	 */
 	public function parse() {
 
-		$result = [];
 		//do some exception handling, when class is not found.. or something
 		if (!class_exists($this->getClass(), true)) {
 			throw new ClassException($this->getClass());
 		}
-
+		$result     = [];
 		$reflection = new \ReflectionClass($this->getClass());
 
-		//parse class docblock also
-
-		$result['class']['name']     = $reflection->getName();
-		$result['class']['docBlock'] = $reflection->getDocComment();
-
-		foreach ($reflection->getConstants() as $constantName => $constantValue) {
-			$result['constants'][$constantName] = $this->getConstantParser()->setConstant([$constantName => $constantValue])->parse()->getResult();
-		}
-		echo PHP_EOL;
-
-		foreach ($reflection->getProperties() as $property) {
-			$result['properties'][$property->name] = $this->getPropertyParser()->setProperty($property)->parse()->getResult();
-		}
-		echo PHP_EOL;
-
-		foreach ($reflection->getMethods() as $method) {
-			$result['methods'][$method->name]['method'] = $this->getFunctionParser()->setFunction($method)->parse()->getResult();
-			foreach ($method->getParameters() as $parameter) {
-				$result['methods'][$method->name]['parameters'] = [
-					$parameter->getName() => $this->getParameterParser()->setParameter($parameter)->parse()->getResult()
-				];
-			}
-		}
-		echo PHP_EOL;
-
+		$this->parseClass($reflection, $result);
+		$this->parseConstants($reflection, $result);
+		$this->parseProperties($reflection, $result);
+		$this->parseMethods($reflection, $result);
 
 		$this->setResult($result);
 
@@ -107,6 +88,70 @@ class ClassParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
+	 * @param $reflection
+	 * @param $result
+	 */
+	public function parseClass($reflection, &$result) {
+
+		$result['class']['name']   = $reflection->getName();
+		$result['class']['phpdoc'] = Factory::getCommentBlock()->setPhpDoc($reflection->getDocComment())->parse()->getResult();
+	}
+
+	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
+	 * @param $reflection
+	 * @param $result
+	 */
+	public function parseProperties($reflection, &$result) {
+
+		foreach ($reflection->getProperties() as $property) {
+			$result['properties'][$property->name] = $this->getPropertyParser()->setProperty($property)->parse()->getResult();
+		}
+
+		foreach ($reflection->getDefaultProperties() as $name => $value) {
+			if (isset($result['properties'][$name])) {
+				$result['properties'][$name]['defaultValue'] = $value;
+			}
+		}
+	}
+
+	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
+	 * @param $reflection
+	 * @param $result
+	 */
+	public function parseMethods($reflection, &$result) {
+
+		foreach ($reflection->getMethods() as $method) {
+			$result['methods'][$method->name] = $this->getFunctionParser()->setFunction($method)->parse()->getResult();
+			foreach ($method->getParameters() as $parameter) {
+				$result['methods'][$method->name]['parameters'] = [
+					$parameter->getName() => $this->getParameterParser()->setParameter($parameter)->parse()->getResult()
+				];
+			}
+		}
+	}
+
+	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
+	 * @param $reflection
+	 * @param $result
+	 */
+	public function parseConstants($reflection, &$result) {
+
+		foreach ($reflection->getConstants() as $constantName => $constantValue) {
+			$result['constants'][$constantName] = $this->getConstantParser()->setConstant([$constantName => $constantValue])->parse()->getResult();
+		}
+	}
+
+	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @param $class
 	 *
 	 * @return $this
@@ -119,6 +164,8 @@ class ClassParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @return null
 	 */
 	public function getClass() {
@@ -127,6 +174,8 @@ class ClassParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @param FunctionParser $functionParser
 	 */
 	public function setFunctionParser(FunctionParser $functionParser) {
@@ -135,6 +184,8 @@ class ClassParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @return FunctionParser
 	 */
 	public function getFunctionParser() {
@@ -143,14 +194,22 @@ class ClassParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @param PropertyParser $propertyParser
+	 *
+	 * @return $this
 	 */
 	public function setPropertyParser(PropertyParser $propertyParser) {
 
 		$this->propertyParser = $propertyParser;
+
+		return $this;
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @return PropertyParser
 	 */
 	public function getPropertyParser() {
@@ -159,14 +218,22 @@ class ClassParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @param mixed $result
+	 *
+	 * @return $this
 	 */
 	public function setResult($result) {
 
 		$this->result = $result;
+
+		return $this;
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @return mixed
 	 */
 	public function getResult() {
@@ -175,14 +242,22 @@ class ClassParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @param ConstantParser $constantParser
+	 *
+	 * @return $this
 	 */
 	public function setConstantParser($constantParser) {
 
 		$this->constantParser = $constantParser;
+
+		return $this;
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @return ConstantParser
 	 */
 	public function getConstantParser() {
@@ -191,19 +266,26 @@ class ClassParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @param \Reflectionist\Reflection\Parser\ParameterParser $parameterParser
+	 *
+	 * @return $this
 	 */
 	public function setParameterParser($parameterParser) {
 
 		$this->parameterParser = $parameterParser;
+
+		return $this;
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @return \Reflectionist\Reflection\Parser\ParameterParser
 	 */
 	public function getParameterParser() {
 
 		return $this->parameterParser;
 	}
-
 }

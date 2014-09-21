@@ -2,11 +2,16 @@
 
 namespace Reflectionist\Reflection\Parser;
 
+use Reflectionist\Factory\Factory;
+
 /**
  * Class PropertyParser
+ *
+ * @author  Lauri Orgla <TheOrX@hotmail.com>
  * @package Reflectionist\Reflection\Parser
  */
 class PropertyParser extends AbstractParser {
+
 	/**
 	 * @var mixed
 	 */
@@ -18,24 +23,31 @@ class PropertyParser extends AbstractParser {
 	private $property;
 
 	/**
-	 *
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 */
 	public function __construct() {
 
 	}
 
 	/**
-	 * @return mixed|void
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 * @return $this|void
 	 */
 	public function parse() {
 
-		echo "	Property [" . $this->getAccessType() . "][" . $this->getProperty()->getName() . "]" . PHP_EOL;
-		$this->setResult($this->getProperty());
+		$this->setResult([
+			'accessType' => $this->getAccessType(),
+			'name'       => $this->getProperty()->getName(),
+			'value'      => null,
+			'phpdoc'     => Factory::getCommentBlock()->setPhpDoc($this->getProperty()->getDocComment())->parse()->getResult()
+
+		]);
 
 		return $this;
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 * @return string
 	 */
 	public function getAccessType() {
@@ -58,6 +70,8 @@ class PropertyParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @param \ReflectionProperty $property
 	 *
 	 * @return $this
@@ -70,6 +84,7 @@ class PropertyParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 * @return \ReflectionProperty
 	 */
 	public function getProperty() {
@@ -78,6 +93,8 @@ class PropertyParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @param mixed $result
 	 *
 	 * @return $this
@@ -90,12 +107,11 @@ class PropertyParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 * @return mixed
 	 */
 	public function getResult() {
 
 		return $this->result;
 	}
-
-
 }

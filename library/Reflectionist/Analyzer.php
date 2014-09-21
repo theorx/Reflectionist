@@ -4,6 +4,9 @@ namespace Reflectionist;
 
 /**
  * Class Analyzer
+ *
+ * @author  Lauri Orgla <TheOrX@hotmail.com>
+ *
  * @package Reflectionist
  */
 class Analyzer {
@@ -25,7 +28,6 @@ class Analyzer {
 	 */
 	private $result = null;
 
-
 	/**
 	 * @var Reflection\Parser\ClassParser
 	 */
@@ -40,7 +42,7 @@ class Analyzer {
 	}
 
 	/**
-	 *
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 */
 	public function analyze() {
 
@@ -50,6 +52,7 @@ class Analyzer {
 
 			$result[] = $this->getClassParser()->setClass($class)->parse()->getResult();
 		}
+
 
 		print_r($result);
 
@@ -190,13 +193,10 @@ class Analyzer {
 	}
 
 	/**
-	 * @return null
+	 * @return mixed
 	 */
 	public function getResult() {
 
 		return $this->result;
 	}
-
-
 }
-

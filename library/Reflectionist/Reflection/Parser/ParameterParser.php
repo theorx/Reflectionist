@@ -4,6 +4,7 @@ namespace Reflectionist\Reflection\Parser;
 
 /**
  * Class ParameterParser
+ * @author  Lauri Orgla <TheOrX@hotmail.com>
  * @package Reflectionist\Reflection\Parser
  */
 class ParameterParser extends AbstractParser {
@@ -18,6 +19,7 @@ class ParameterParser extends AbstractParser {
 	private $parameter;
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 *
 	 */
 	public function __construct() {
@@ -25,23 +27,24 @@ class ParameterParser extends AbstractParser {
 	}
 
 	/**
-	 * @return mixed|void
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 * @return $this|mixed
 	 */
 	public function parse() {
 
-		echo "			 [" .
-			$this->getTypeHint() . "][" .
-			$this->getParameter()->getName() . "][" .
-			(($this->getParameter()->isOptional() == true) ? 'Optional' : 'Required') .
-			"]" . PHP_EOL;
-		$this->setResult($this->getParameter());
-
-		//parse DocBlock
+		$this->setResult([
+			'name'         => $this->getParameter()->getName(),
+			'type'         => $this->getTypeHint(),
+			'isOptional'   => $this->getParameter()->isOptional(),
+			'position'     => $this->getParameter()->getPosition(),
+			'defaultValue' => ($this->getParameter()->isOptional()) ? $this->getParameter()->getDefaultValue() : null
+		]);
 
 		return $this;
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 * @return null|string
 	 */
 	public function getTypeHint() {
@@ -63,6 +66,8 @@ class ParameterParser extends AbstractParser {
 	}
 
 	/**
+	 * @author   Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @param $parameter
 	 *
 	 * @internal param \ReflectionProperty $property
@@ -77,6 +82,7 @@ class ParameterParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 * @return \ReflectionParameter
 	 */
 	public function getParameter() {
@@ -85,6 +91,8 @@ class ParameterParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @param mixed $result
 	 *
 	 * @return $this
@@ -97,6 +105,7 @@ class ParameterParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 * @return mixed
 	 */
 	public function getResult() {

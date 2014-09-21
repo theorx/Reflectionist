@@ -4,24 +4,26 @@ namespace Reflectionist\Reflection\Parser;
 
 /**
  * Class ConstantParser
+ * @author  Lauri Orgla <TheOrX@hotmail.com>
  * @package Reflectionist\Reflection\Parser
  */
 class ConstantParser extends AbstractParser {
+
 	/**
-	 * @var mixed
+	 * @var mixed mixed
 	 */
 	private $result;
+
 	/**
-	 * @var
+	 * @var mixed
 	 */
 	private $constant;
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 * @return mixed|void
 	 */
 	public function parse() {
-
-		echo "	Constant [" . key($this->getConstant()) . "]" . PHP_EOL;
 
 		$this->setResult($this->getConstant());
 
@@ -29,9 +31,11 @@ class ConstantParser extends AbstractParser {
 	}
 
 	/**
+	 * @author   Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @param $constant
 	 *
-	 * @internal param \ReflectionMethod $function
+	 * @internal param mixed $function
 	 *
 	 * @return $this
 	 */
@@ -43,7 +47,8 @@ class ConstantParser extends AbstractParser {
 	}
 
 	/**
-	 * @return \ReflectionMethod
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 * @return mixed
 	 */
 	public function getConstant() {
 
@@ -51,6 +56,8 @@ class ConstantParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @param mixed $result
 	 *
 	 * @return $this
@@ -63,12 +70,11 @@ class ConstantParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 * @return mixed
 	 */
 	public function getResult() {
 
 		return $this->result;
 	}
-
-
 }

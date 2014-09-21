@@ -1,51 +1,49 @@
 <?php
-
-
 namespace Reflectionist\Reflection\Parser;
+
+use Reflectionist\Factory\Factory;
 
 /**
  * Class FunctionParser
+ *
+ * @author  Lauri Orgla <TheOrX@hotmail.com>
  * @package Reflectionist\Reflection\Parser
  */
 class FunctionParser extends AbstractParser {
+
 	/**
 	 * @var mixed
 	 */
 	private $result;
+
 	/**
 	 * @var \ReflectionMethod
 	 */
+
 	private $function;
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 * @return mixed|void
 	 */
 	public function parse() {
 
-		echo "		Function [" . $this->getAccessType() . "]" . "[" . $this->getFunction()->getName() . "]" . PHP_EOL;
-
-
-		/*
-		$result['methods'][$method->name] = [
-			'reflection'                 => $method,
-			'name'                       => $method->name,
-			'arguments'                  => $method->getParameters(),
-			'docBlock'                   => $method->getDocComment(),
-			'numberOfParameters'         => $method->getNumberOfParameters(),
-			'numberOfRequiredParameters' => $method->getNumberOfRequiredParameters(),
-			'methodStaticVariables'      => $method->getStaticVariables()
-		];
-		*/
-
-
-		// TODO: Implement parse() method.
-
-		$this->setResult($this->getFunction());
+		$this->setResult(
+			 [
+				 'accessType'                 => $this->getAccessType(),
+				 'name'                       => $this->getFunction()->name,
+				 'parameters'                 => $this->getFunction()->getParameters(),
+				 'numberOfParameters'         => $this->getFunction()->getNumberOfParameters(),
+				 'numberOfRequiredParameters' => $this->getFunction()->getNumberOfRequiredParameters(),
+				 'methodStaticVariables'      => $this->getFunction()->getStaticVariables(),
+				 'phpdoc'                     => Factory::getCommentBlock()->setPhpDoc($this->getFunction()->getDocComment())->parse()->getResult()
+			 ]);
 
 		return $this;
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 * @return string
 	 */
 	public function getAccessType() {
@@ -68,6 +66,8 @@ class FunctionParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @param \ReflectionMethod $function
 	 *
 	 * @return $this
@@ -80,6 +80,7 @@ class FunctionParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 * @return \ReflectionMethod
 	 */
 	public function getFunction() {
@@ -88,6 +89,8 @@ class FunctionParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @param mixed $result
 	 *
 	 * @return $this
@@ -100,12 +103,11 @@ class FunctionParser extends AbstractParser {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 * @return mixed
 	 */
 	public function getResult() {
 
 		return $this->result;
 	}
-
-
 }

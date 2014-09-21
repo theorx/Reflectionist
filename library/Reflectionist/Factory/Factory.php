@@ -2,6 +2,7 @@
 
 namespace Reflectionist\Factory;
 
+use Reflectionist\Analyzer;
 use Reflectionist\Comment\CommentBlock;
 use Reflectionist\Interfaces\IFactory;
 use Reflectionist\Reflection\Parser\ClassParser;
@@ -12,15 +13,24 @@ use Reflectionist\Reflection\Parser\PropertyParser;
 
 /**
  * Class Factory
+ * @author  Lauri Orgla <TheOrX@hotmail.com>
+ *
  * @package Reflectionist\Factory
  */
 class Factory implements IFactory {
 
+	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 * @return mixed|Analyzer
+	 */
 	public static function getAnalyzer() {
-		// TODO: Implement getAnalyzer() method.
+
+		return new Analyzer();
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @return ClassParser
 	 */
 	public static function getClassParser() {
@@ -34,6 +44,8 @@ class Factory implements IFactory {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @return CommentBlock
 	 */
 	public static function getCommentBlock() {

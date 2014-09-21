@@ -5,6 +5,8 @@ namespace Reflectionist\Exception;
 
 /**
  * Class ClassException
+ * @author  Lauri Orgla <TheOrX@hotmail.com>
+ *
  * @package Reflectionist\Exception
  */
 class ClassException extends \Exception {
@@ -13,12 +15,15 @@ class ClassException extends \Exception {
 	 * @var string
 	 */
 	protected $message = 'Class was not found';
+
 	/**
 	 * @var int
 	 */
 	protected $code = 1001;
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @param string $class
 	 */
 	public function __construct($class) {
@@ -27,6 +32,8 @@ class ClassException extends \Exception {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @param $message
 	 *
 	 * @return $this
@@ -39,6 +46,8 @@ class ClassException extends \Exception {
 	}
 
 	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @param $code
 	 *
 	 * @return $this
