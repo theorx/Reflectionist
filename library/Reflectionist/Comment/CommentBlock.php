@@ -27,7 +27,36 @@ class CommentBlock {
 
 		//parse shit..
 
-		$this->setResult(['phpdoc' => 'result']);
+		$result = [];
+		$tags   = [];
+		//remove comment tags
+		$result = explode(PHP_EOL, str_replace(['/**', '/*', '*/', '*', '//', '#'], '', $this->getPhpDoc()));
+
+		foreach ($result as $key => $value) {
+			$result[$key] = ltrim(trim($value));
+		}
+
+		//find short description
+		//find long description
+
+		//get all tags
+		$tagCapture = false;
+		foreach ($result as $key => $value) {
+			if (strlen($value) > 0 && $value[0] == '@') {
+				$parts = explode(' ', $value);
+				$tag   = $parts[0];
+				unset($parts[0]);
+				$tags[$tag] = implode(' ', $parts);
+			}
+		}
+
+		$result += $tags;
+
+		$this->setResult($result);
+
+
+		print_r($result);
+		exit;
 
 		return $this;
 	}
