@@ -38,6 +38,8 @@ namespace E {
 
 	/**
 	 * Class Example
+	 *
+	 * Long description of that example..
 	 * @package E
 	 */
 	class Example extends \nigger\test implements \IFACE\Itest {
@@ -97,6 +99,24 @@ namespace E {
 		 */
 		static function pubstatfun() {
 
+		}
+
+		/**
+		 * Test hehehe
+		 *
+		 * Hahaha is function for stupid kids
+		 * Stupid kids like to do stupid things, thats what we call
+		 * "operation never happened"
+		 * This is fun
+		 *
+		 * @param string $neeger
+		 * @param int    $num
+		 *
+		 * @return int
+		 */
+		public function hahahaha($neeger, $num) {
+
+			return 1;
 		}
 
 		/**
@@ -289,9 +309,6 @@ namespace E {
 		}
 
 
-		/**
-		 *
-		 */
 		protected function myProtected() {
 
 		}

@@ -4,6 +4,7 @@ namespace Reflectionist\Reflection\Parser;
 
 /**
  * Class AbstractParser
+ *
  * @author  Lauri Orgla <TheOrX@hotmail.com>
  *
  * @package Reflectionist\Reflection\Parser

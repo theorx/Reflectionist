@@ -53,8 +53,9 @@ class Analyzer {
 			$result[] = $this->getClassParser()->setClass($class)->parse()->getResult();
 		}
 
-
-		print_r($result);
+		foreach ($result[0]['methods'] as $method) {
+			print_r($method['phpdoc']);
+		}
 
 		//gets all files
 		//gets all classes

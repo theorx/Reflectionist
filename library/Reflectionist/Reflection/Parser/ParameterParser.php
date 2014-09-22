@@ -112,6 +112,4 @@ class ParameterParser extends AbstractParser {
 
 		return $this->result;
 	}
-
-
 }

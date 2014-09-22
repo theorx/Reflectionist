@@ -36,11 +36,11 @@ class ClassParser extends AbstractParser {
 	 * @var ConstantParser
 	 */
 	private $constantParser = null;
+
 	/**
 	 * @var ParameterParser
 	 */
 	private $parameterParser = null;
-
 
 	/**
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
@@ -74,14 +74,14 @@ class ClassParser extends AbstractParser {
 		if (!class_exists($this->getClass(), true)) {
 			throw new ClassException($this->getClass());
 		}
-		$result     = [];
-		$reflection = new \ReflectionClass($this->getClass());
+		$result           = [];
+		$reflection       = new \ReflectionClass($this->getClass());
+		$result['phpdoc'] = Factory::getCommentBlock()->setPhpDoc($reflection->getDocComment())->parse()->getResult();
 
 		$this->parseClass($reflection, $result);
 		$this->parseConstants($reflection, $result);
 		$this->parseProperties($reflection, $result);
 		$this->parseMethods($reflection, $result);
-
 		$this->setResult($result);
 
 		return $this;
@@ -90,10 +90,10 @@ class ClassParser extends AbstractParser {
 	/**
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 *
-	 * @param $reflection
-	 * @param $result
+	 * @param \ReflectionClass $reflection
+	 * @param                  $result
 	 */
-	public function parseClass($reflection, &$result) {
+	public function parseClass(\ReflectionClass $reflection, &$result) {
 
 		$result['class']['name']   = $reflection->getName();
 		$result['class']['phpdoc'] = Factory::getCommentBlock()->setPhpDoc($reflection->getDocComment())->parse()->getResult();
@@ -102,10 +102,10 @@ class ClassParser extends AbstractParser {
 	/**
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 *
-	 * @param $reflection
-	 * @param $result
+	 * @param \ReflectionClass $reflection
+	 * @param                  $result
 	 */
-	public function parseProperties($reflection, &$result) {
+	public function parseProperties(\ReflectionClass $reflection, &$result) {
 
 		foreach ($reflection->getProperties() as $property) {
 			$result['properties'][$property->name] = $this->getPropertyParser()->setProperty($property)->parse()->getResult();
@@ -121,10 +121,10 @@ class ClassParser extends AbstractParser {
 	/**
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 *
-	 * @param $reflection
-	 * @param $result
+	 * @param \ReflectionClass $reflection
+	 * @param                  $result
 	 */
-	public function parseMethods($reflection, &$result) {
+	public function parseMethods(\ReflectionClass $reflection, &$result) {
 
 		foreach ($reflection->getMethods() as $method) {
 			$result['methods'][$method->name] = $this->getFunctionParser()->setFunction($method)->parse()->getResult();
@@ -139,10 +139,10 @@ class ClassParser extends AbstractParser {
 	/**
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 *
-	 * @param $reflection
-	 * @param $result
+	 * @param \ReflectionClass $reflection
+	 * @param                  $result
 	 */
-	public function parseConstants($reflection, &$result) {
+	public function parseConstants(\ReflectionClass $reflection, &$result) {
 
 		foreach ($reflection->getConstants() as $constantName => $constantValue) {
 			$result['constants'][$constantName] = $this->getConstantParser()->setConstant([$constantName => $constantValue])->parse()->getResult();

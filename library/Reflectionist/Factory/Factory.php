@@ -1,5 +1,4 @@
 <?php
-
 namespace Reflectionist\Factory;
 
 use Reflectionist\Analyzer;
@@ -13,6 +12,10 @@ use Reflectionist\Reflection\Parser\PropertyParser;
 
 /**
  * Class Factory
+ *
+ * Usage: Factory::getClassParser();
+ * Returns instance of the object.s
+ *
  * @author  Lauri Orgla <TheOrX@hotmail.com>
  *
  * @package Reflectionist\Factory
@@ -29,6 +32,8 @@ class Factory implements IFactory {
 	}
 
 	/**
+	 * This function builds and returns ClassParser
+	 *
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 *
 	 * @return ClassParser
@@ -44,6 +49,8 @@ class Factory implements IFactory {
 	}
 
 	/**
+	 * This function returns instance of CommentBlock
+	 *
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 *
 	 * @return CommentBlock

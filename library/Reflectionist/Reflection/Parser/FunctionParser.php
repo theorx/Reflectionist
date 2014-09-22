@@ -6,6 +6,10 @@ use Reflectionist\Factory\Factory;
 /**
  * Class FunctionParser
  *
+ * Usage:
+ * $functionParser->setFunction($reflectionFunction)->parse()->getResult();
+ * This returns the parsed result of reflectionMethod
+ *
  * @author  Lauri Orgla <TheOrX@hotmail.com>
  * @package Reflectionist\Reflection\Parser
  */
@@ -43,6 +47,8 @@ class FunctionParser extends AbstractParser {
 	}
 
 	/**
+	 * Returns the accessType of current function
+	 *
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 * @return string
 	 */
