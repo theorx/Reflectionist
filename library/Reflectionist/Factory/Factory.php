@@ -14,7 +14,7 @@ use Reflectionist\Reflection\Parser\PropertyParser;
  * Class Factory
  *
  * Usage: Factory::getClassParser();
- * Returns instance of the object.s
+ * Returns instance of the objects.
  *
  * @author  Lauri Orgla <TheOrX@hotmail.com>
  *

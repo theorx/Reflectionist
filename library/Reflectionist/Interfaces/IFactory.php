@@ -4,6 +4,7 @@ namespace Reflectionist\Interfaces;
 
 /**
  * Interface IFactory
+ *
  * @author  Lauri Orgla <TheOrX@hotmail.com>
  *
  * @package Reflectionist\Interfaces

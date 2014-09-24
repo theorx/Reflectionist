@@ -21,6 +21,10 @@ class CommentBlock {
 	private $result;
 
 	/**
+	 * This function parses phpdoc, first formats the raw input to usable format
+	 * and then fetches all the @tags from the comment, after that
+	 * gets short and long description
+	 *
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 */
 	public function parse() {
@@ -133,6 +137,7 @@ class CommentBlock {
 
 	/**
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @return mixed
 	 */
 	public function getPhpDoc() {
@@ -156,6 +161,7 @@ class CommentBlock {
 
 	/**
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @return mixed
 	 */
 	public function getResult() {

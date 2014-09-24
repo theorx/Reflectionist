@@ -12,7 +12,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Reflectionist\\": "library/Reflectionist/"
+            "Reflectionist\\": "library/Reflectionist/",
+            "Tests\\": "tests/"
         }
     },
     "require-dev": {

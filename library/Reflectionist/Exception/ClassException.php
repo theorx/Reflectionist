@@ -3,6 +3,7 @@ namespace Reflectionist\Exception;
 
 /**
  * Class ClassException
+ *
  * @author  Lauri Orgla <TheOrX@hotmail.com>
  *
  * @package Reflectionist\Exception
