@@ -14,9 +14,15 @@
             <directory>tests/library/Reflectionist</directory>
         </testsuite>
     </testsuites>
+
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">src</directory>
+            <directory suffix=".php">library/</directory>
         </whitelist>
     </filter>
+
+    <logging>
+        <log type="coverage-html" target="tests/report" charset="UTF-8"
+             yui="true" highlight="true" lowUpperBound="80" highLowerBound="100"/>
+    </logging>
 </phpunit>
