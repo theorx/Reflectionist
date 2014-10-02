@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Reflectionist;
+namespace Tests\Reflectionist\Reflection\Parser;
 
 use Tests\Stubs\StubReflectionClass;
 use Reflectionist\Factory\Factory;
@@ -10,7 +10,9 @@ use Reflectionist\Reflection\Parser\ParameterParser;
 use Reflectionist\Reflection\Parser\PropertyParser;
 
 /**
- * Class AnalyzerTest
+ * Class ClassParserTest
+ * @author             Lauri Orgla <TheOrX@hotmail.com>
+ *
  * @coversDefaultClass Reflectionist\Reflection\Parser\ClassParser
  * @package            Tests\Reflectionist
  */
@@ -179,7 +181,6 @@ class ClassParserTest extends \PHPUnit_Framework_TestCase {
 
 		$reflectionClass = new \ReflectionClass(new StubReflectionClass());
 		$this->classParser->parseMethods($reflectionClass, $result);
-
 
 		$this->assertArrayHaskey('methods', $result);
 		$this->assertArrayHaskey('parser', $result['methods']);
