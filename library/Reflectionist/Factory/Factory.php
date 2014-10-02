@@ -6,7 +6,7 @@ use Reflectionist\Comment\CommentBlock;
 use Reflectionist\Interfaces\IFactory;
 use Reflectionist\Reflection\Parser\ClassParser;
 use Reflectionist\Reflection\Parser\ConstantParser;
-use Reflectionist\Reflection\Parser\FunctionParser;
+use Reflectionist\Reflection\Parser\MethodParser;
 use Reflectionist\Reflection\Parser\ParameterParser;
 use Reflectionist\Reflection\Parser\PropertyParser;
 
@@ -41,7 +41,7 @@ class Factory implements IFactory {
 	public static function getClassParser() {
 
 		return new ClassParser(
-			new FunctionParser(),
+			new MethodParser(),
 			new PropertyParser(),
 			new ConstantParser(),
 			new ParameterParser()

@@ -1,10 +1,11 @@
 <?php
 namespace Tests\Reflectionist;
 
+use Tests\Stubs\StubReflectionClass;
 use Reflectionist\Factory\Factory;
 use Reflectionist\Reflection\Parser\ClassParser;
 use Reflectionist\Reflection\Parser\ConstantParser;
-use Reflectionist\Reflection\Parser\FunctionParser;
+use Reflectionist\Reflection\Parser\MethodParser;
 use Reflectionist\Reflection\Parser\ParameterParser;
 use Reflectionist\Reflection\Parser\PropertyParser;
 
@@ -65,14 +66,14 @@ class ClassParserTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers ::getFunctionParser
-	 * @covers ::setFunctionParser
+	 * @covers ::getMethodParser
+	 * @covers ::setMethodParser
 	 */
-	public function testGetSetFunctionParserReturnsParser() {
+	public function testGetSetMethodParserReturnsParser() {
 
-		$functionParser = new FunctionParser();
-		$this->classParser->setFunctionParser($functionParser);
-		$this->assertEquals($functionParser, $this->classParser->getFunctionParser());
+		$functionParser = new MethodParser();
+		$this->classParser->setMethodParser($functionParser);
+		$this->assertEquals($functionParser, $this->classParser->getMethodParser());
 	}
 
 	/**
@@ -120,5 +121,83 @@ class ClassParserTest extends \PHPUnit_Framework_TestCase {
 		$this->classParser->parse();
 	}
 
+	/**
+	 * @covers ::parseClass
+	 */
+	public function testParseClassSetsResultNameAndPhpDoc() {
 
+		$reflectionClass = new \ReflectionClass(new StubReflectionClass());
+		$this->classParser->parseClass($reflectionClass, $result);
+
+		$this->assertArrayHasKey('class', $result);
+		$this->assertArrayHasKey('name', $result['class']);
+		$this->assertArrayHasKey('phpdoc', $result['class']);
+		$this->assertArrayHasKey('shortDescription', $result['class']['phpdoc']);
+		$this->assertArrayHasKey('longDescription', $result['class']['phpdoc']);
+		$this->assertArrayHasKey('tags', $result['class']['phpdoc']);
+	}
+
+	/**
+	 * @covers ::parseProperties
+	 */
+	public function testParsePropertiesReturnsParsedProperties() {
+
+		$reflectionClass = new \ReflectionClass(new StubReflectionClass());
+		$this->classParser->parseProperties($reflectionClass, $result);
+
+		$this->assertArrayHasKey('properties', $result);
+		$this->assertArrayHasKey('name', $result['properties']);
+		$this->assertArrayHasKey('name', $result['properties']['name']);
+		$this->assertArrayHasKey('accessType', $result['properties']['name']);
+		$this->assertArrayHasKey('name', $result['properties']['name']);
+		$this->assertArrayHasKey('value', $result['properties']['name']);
+		$this->assertArrayHasKey('phpdoc', $result['properties']['name']);
+		$this->assertArrayHasKey('shortDescription', $result['properties']['name']['phpdoc']);
+		$this->assertArrayHasKey('longDescription', $result['properties']['name']['phpdoc']);
+		$this->assertArrayHasKey('tags', $result['properties']['name']['phpdoc']);
+	}
+
+	/**
+	 * @covers ::parseConstants
+	 */
+	public function testParseConstantsReturnsParsedConstants() {
+
+		$reflectionClass = new \ReflectionClass(new StubReflectionClass());
+		$this->classParser->parseConstants($reflectionClass, $result);
+
+		$this->assertArrayHasKey('constants', $result);
+		$this->assertArrayHasKey('TEST_CONSTANT', $result['constants']);
+		$this->assertArrayHasKey('TEST_CONSTANT', $result['constants']['TEST_CONSTANT']);
+		$this->assertEquals('test value', $result['constants']['TEST_CONSTANT']['TEST_CONSTANT']);
+	}
+
+	/**
+	 * @covers ::parseMethods
+	 * @covers ::parseMethodParameters
+	 */
+	public function testParseMethodsAndMethodParametersReturnsParsedMethodsAndParameters() {
+
+		$reflectionClass = new \ReflectionClass(new StubReflectionClass());
+		$this->classParser->parseMethods($reflectionClass, $result);
+
+
+		$this->assertArrayHaskey('methods', $result);
+		$this->assertArrayHaskey('parser', $result['methods']);
+		$this->assertArrayHaskey('accessType', $result['methods']['parser']);
+		$this->assertEquals('public', $result['methods']['parser']['accessType']);
+		$this->assertArrayHaskey('name', $result['methods']['parser']);
+		$this->assertEquals('parser', $result['methods']['parser']['name']);
+		$this->assertArrayHaskey('parameters', $result['methods']['parser']);
+		$this->assertArrayHaskey('numberOfParameters', $result['methods']['parser']);
+		$this->assertArrayHaskey('numberOfRequiredParameters', $result['methods']['parser']);
+		$this->assertArrayHaskey('methodStaticVariables', $result['methods']['parser']);
+		$this->assertArrayHaskey('phpdoc', $result['methods']['parser']);
+		$this->assertArrayHaskey('shortDescription', $result['methods']['parser']['phpdoc']);
+		$this->assertArrayHaskey('longDescription', $result['methods']['parser']['phpdoc']);
+		$this->assertArrayHaskey('tags', $result['methods']['parser']['phpdoc']);
+		$this->assertCount(
+			 $result['methods']['parser']['numberOfParameters'],
+				 $result['methods']['parser']['parameters']
+		);
+	}
 }

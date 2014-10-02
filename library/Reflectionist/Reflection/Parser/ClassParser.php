@@ -23,9 +23,9 @@ class ClassParser extends AbstractParser {
 	private $class = null;
 
 	/**
-	 * @var FunctionParser
+	 * @var MethodParser
 	 */
-	private $functionParser = null;
+	private $methodParser = null;
 
 	/**
 	 * @var PropertyParser
@@ -45,19 +45,19 @@ class ClassParser extends AbstractParser {
 	/**
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 *
-	 * @param FunctionParser  $functionParser
+	 * @param MethodParser    $functionParser
 	 * @param PropertyParser  $propertyParser
 	 * @param ConstantParser  $constantParser
 	 * @param ParameterParser $parameterParser
 	 */
 	public function __construct(
-		FunctionParser $functionParser,
+		MethodParser $functionParser,
 		PropertyParser $propertyParser,
 		ConstantParser $constantParser,
 		ParameterParser $parameterParser
 	) {
 
-		$this->setFunctionParser($functionParser);
+		$this->setMethodParser($functionParser);
 		$this->setPropertyParser($propertyParser);
 		$this->setConstantParser($constantParser);
 		$this->setParameterParser($parameterParser);
@@ -71,7 +71,7 @@ class ClassParser extends AbstractParser {
 	public function parse() {
 
 		//do some exception handling, when class is not found.. or something
-		if (!class_exists($this->getClass(), true)) {
+		if (!class_exists($this->getClass(), true) && !is_object($this->getClass())) {
 			throw new ClassException($this->getClass());
 		}
 		$result           = [];
@@ -107,6 +107,7 @@ class ClassParser extends AbstractParser {
 	 */
 	public function parseProperties(\ReflectionClass $reflection, &$result) {
 
+		$result['properties'] = [];
 		foreach ($reflection->getProperties() as $property) {
 			$result['properties'][$property->name] = $this->getPropertyParser()->setProperty($property)->parse()->getResult();
 		}
@@ -126,13 +127,25 @@ class ClassParser extends AbstractParser {
 	 */
 	public function parseMethods(\ReflectionClass $reflection, &$result) {
 
+		$result['methods'] = [];
 		foreach ($reflection->getMethods() as $method) {
-			$result['methods'][$method->name] = $this->getFunctionParser()->setFunction($method)->parse()->getResult();
-			foreach ($method->getParameters() as $parameter) {
-				$result['methods'][$method->name]['parameters'] = [
-					$parameter->getName() => $this->getParameterParser()->setParameter($parameter)->parse()->getResult()
-				];
-			}
+			$result['methods'][$method->name] = $this->getMethodParser()->setMethod($method)->parse()->getResult();
+			$this->parseMethodParameters($method, $result);
+		}
+	}
+
+	/**
+	 * @author Lauri Orgla <TheOrX@hotmail.com>
+	 *
+	 * @param \ReflectionMethod $method
+	 * @param                   $result
+	 */
+	public function parseMethodParameters(\ReflectionMethod $method, &$result) {
+
+		$result['methods'][$method->getName()]['parameters'] = [];
+		foreach ($method->getParameters() as $parameter) {
+			$result['methods'][$method->getName()]['parameters'][$parameter->getName()]
+				= $this->getParameterParser()->setParameter($parameter)->parse()->getResult();
 		}
 	}
 
@@ -144,8 +157,10 @@ class ClassParser extends AbstractParser {
 	 */
 	public function parseConstants(\ReflectionClass $reflection, &$result) {
 
+		$result['constants'] = [];
 		foreach ($reflection->getConstants() as $constantName => $constantValue) {
-			$result['constants'][$constantName] = $this->getConstantParser()->setConstant([$constantName => $constantValue])->parse()->getResult();
+			$result['constants'][$constantName] =
+				$this->getConstantParser()->setConstant([$constantName => $constantValue])->parse()->getResult();
 		}
 	}
 
@@ -176,21 +191,21 @@ class ClassParser extends AbstractParser {
 	/**
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 *
-	 * @param FunctionParser $functionParser
+	 * @param MethodParser $methodParser
 	 */
-	public function setFunctionParser(FunctionParser $functionParser) {
+	public function setMethodParser(MethodParser $methodParser) {
 
-		$this->functionParser = $functionParser;
+		$this->methodParser = $methodParser;
 	}
 
 	/**
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 *
-	 * @return FunctionParser
+	 * @return MethodParser
 	 */
-	public function getFunctionParser() {
+	public function getMethodParser() {
 
-		return $this->functionParser;
+		return $this->methodParser;
 	}
 
 	/**

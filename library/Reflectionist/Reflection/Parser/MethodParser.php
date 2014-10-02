@@ -4,16 +4,16 @@ namespace Reflectionist\Reflection\Parser;
 use Reflectionist\Factory\Factory;
 
 /**
- * Class FunctionParser
+ * Class MethodParser
  *
  * Usage:
- * $functionParser->setFunction($reflectionFunction)->parse()->getResult();
+ * $methodParser->setMethod($reflectionFunction)->parse()->getResult();
  * This returns the parsed result of reflectionMethod
  *
  * @author  Lauri Orgla <TheOrX@hotmail.com>
  * @package Reflectionist\Reflection\Parser
  */
-class FunctionParser extends AbstractParser {
+class MethodParser extends AbstractParser {
 
 	/**
 	 * @var mixed
@@ -24,7 +24,7 @@ class FunctionParser extends AbstractParser {
 	 * @var \ReflectionMethod
 	 */
 
-	private $function;
+	private $method;
 
 	/**
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
@@ -35,12 +35,12 @@ class FunctionParser extends AbstractParser {
 		$this->setResult(
 			 [
 				 'accessType'                 => $this->getAccessType(),
-				 'name'                       => $this->getFunction()->name,
-				 'parameters'                 => $this->getFunction()->getParameters(),
-				 'numberOfParameters'         => $this->getFunction()->getNumberOfParameters(),
-				 'numberOfRequiredParameters' => $this->getFunction()->getNumberOfRequiredParameters(),
-				 'methodStaticVariables'      => $this->getFunction()->getStaticVariables(),
-				 'phpdoc'                     => Factory::getCommentBlock()->setPhpDoc($this->getFunction()->getDocComment())->parse()->getResult()
+				 'name'                       => $this->getMethod()->name,
+				 'parameters'                 => $this->getMethod()->getParameters(),
+				 'numberOfParameters'         => $this->getMethod()->getNumberOfParameters(),
+				 'numberOfRequiredParameters' => $this->getMethod()->getNumberOfRequiredParameters(),
+				 'methodStaticVariables'      => $this->getMethod()->getStaticVariables(),
+				 'phpdoc'                     => Factory::getCommentBlock()->setPhpDoc($this->getMethod()->getDocComment())->parse()->getResult()
 			 ]);
 
 		return $this;
@@ -55,16 +55,16 @@ class FunctionParser extends AbstractParser {
 	public function getAccessType() {
 
 		$type = [];
-		if ($this->getFunction()->isPrivate()) {
+		if ($this->getMethod()->isPrivate()) {
 			$type[] = 'private';
 		}
-		if ($this->getFunction()->isPublic()) {
+		if ($this->getMethod()->isPublic()) {
 			$type[] = 'public';
 		}
-		if ($this->getFunction()->isProtected()) {
+		if ($this->getMethod()->isProtected()) {
 			$type[] = 'protected';
 		}
-		if ($this->getFunction()->isStatic()) {
+		if ($this->getMethod()->isStatic()) {
 			$type[] = 'static';
 		}
 
@@ -74,13 +74,13 @@ class FunctionParser extends AbstractParser {
 	/**
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 *
-	 * @param \ReflectionMethod $function
+	 * @param \ReflectionMethod $method
 	 *
 	 * @return $this
 	 */
-	public function setFunction($function) {
+	public function setMethod($method) {
 
-		$this->function = $function;
+		$this->method = $method;
 
 		return $this;
 	}
@@ -89,9 +89,9 @@ class FunctionParser extends AbstractParser {
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 * @return \ReflectionMethod
 	 */
-	public function getFunction() {
+	public function getMethod() {
 
-		return $this->function;
+		return $this->method;
 	}
 
 	/**
