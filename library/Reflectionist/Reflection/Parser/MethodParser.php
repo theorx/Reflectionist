@@ -28,7 +28,7 @@ class MethodParser extends AbstractParser {
 
 	/**
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
-	 * @return mixed|void
+	 * @return $this
 	 */
 	public function parse() {
 

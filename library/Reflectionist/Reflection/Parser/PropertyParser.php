@@ -24,13 +24,6 @@ class PropertyParser extends AbstractParser {
 
 	/**
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
-	 */
-	public function __construct() {
-
-	}
-
-	/**
-	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 * @return $this|void
 	 */
 	public function parse() {
