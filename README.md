@@ -22,14 +22,15 @@ $ ./composer.phar update
 $ ./composer.phar dump-autoload -o
 ´´´
 
+
 Usage
 -----
 
 ```php
-
 require(__DIR__.'/vendor/autoload.php');
 
 $analyzer = new Reflectionist\Analyzer();
 
 $result = $analyzer->addClass('vendor\ns\subns\class')->analyze()->getResults();
 ´´´
+
