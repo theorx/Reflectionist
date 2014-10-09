@@ -4,6 +4,7 @@ namespace Reflectionist\Reflection\Parser;
 
 /**
  * Class ParameterParser
+ *
  * @author  Lauri Orgla <TheOrX@hotmail.com>
  * @package Reflectionist\Reflection\Parser
  */

@@ -11,6 +11,8 @@ namespace Reflectionist\Exception;
 class ClassException extends \Exception {
 
 	/**
+	 * Exception message that will be thrown.
+	 *
 	 * @var string
 	 */
 	protected $message = 'Class was not found';

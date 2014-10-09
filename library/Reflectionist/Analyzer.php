@@ -2,6 +2,10 @@
 
 namespace Reflectionist;
 
+	/**
+	 * TODO: Add method for reading classes from files. But the namespace would also have to be correct after reading
+	 */
+
 /**
  * Class Analyzer
  *
@@ -16,11 +20,14 @@ namespace Reflectionist;
 class Analyzer {
 
 	/**
+	 * Holds an array of classes that are added for analyzing.
 	 * @var array
 	 */
 	private $classes = [];
 
 	/**
+	 * Holds and array of results after analyze() method has been called.
+	 *
 	 * @var mixed
 	 */
 	private $result = null;
@@ -61,6 +68,8 @@ class Analyzer {
 	}
 
 	/**
+	 * addClass adds class to local list of classes.
+	 *
 	 * @author  Lauri Orgla <TheOrX@hotmail.com>
 	 *
 	 * @param $class
@@ -75,6 +84,8 @@ class Analyzer {
 	}
 
 	/**
+	 * addClasses adds multiple classes from input $classes to local list of classes.
+	 *
 	 * @author  Lauri Orgla <TheOrX@hotmail.com>
 	 *
 	 * @param array $classes
@@ -92,6 +103,7 @@ class Analyzer {
 
 	/**
 	 * @author  Lauri Orgla <TheOrX@hotmail.com>
+	 *
 	 * @return Reflection\Parser\ClassParser
 	 */
 	public function getClassParser() {

@@ -7,6 +7,10 @@ use Reflectionist\Factory\Factory;
 /**
  * Class ClassParser
  *
+ * ClassParser class is used for processing given class
+ * This class calls all the sub classes for parsing internal components
+ * of the class being parsed.
+ *
  * @author  Lauri Orgla <TheOrX@hotmail.com>
  * @package Reflectionist\Reflection\Parser
  */

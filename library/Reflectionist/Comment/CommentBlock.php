@@ -4,6 +4,9 @@ namespace Reflectionist\Comment;
 
 /**
  * Class CommentBlock
+ *
+ * This class is used for parsing comment blocks from reflection results.
+ *
  * @author  Lauri Orgla <TheOrX@hotmail.com>
  *
  * @package Reflectionist\Comment
@@ -51,6 +54,8 @@ class CommentBlock {
 	}
 
 	/**
+	 * Trims all whitespace from start and end of the strings in given array
+	 *
 	 * @author Lauri Orgla <TheOrX@hotmail.com>
 	 *
 	 * @param $phpDoc

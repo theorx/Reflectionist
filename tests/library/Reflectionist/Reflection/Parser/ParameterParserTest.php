@@ -51,43 +51,32 @@ class ParameterParserTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @return array
 	 */
-	public function provideAccessMethodsAndTypes() {
+	public function provideParameterNumberAndTypeHint() {
 
 		return [
-			['publicMethod', 'public'],
-			['privateMethod', 'private'],
-			['protectedMethod', 'protected'],
-			['staticMethod', 'public static'],
-			['publicStaticMethod', 'public static'],
-			['privateStaticMethod', 'private static'],
-			['protectedStaticMethod', 'protected static']
+			[0, 'Callable'],
+			[1, 'Array'],
+			[2, null],
+			[3, 'PDO'],
 		];
 	}
 
 	/**
-	 * @param $methodName
-	 * @param $accessType
+	 * @param $parameterNumber
+	 * @param $typeHint
 	 *
-	 * @dataProvider provideAccessMethodsAndTypes
-	 * @covers ::getAccessType
+	 *
+	 * @dataProvider provideParameterNumberAndTypeHint
+	 * @covers ::getTypeHint
 	 */
-	/*public function testGetAccessTypeReturnsTypeAsString($methodName, $accessType) {
+	public function testGetTypeHintReturnsTypeAsString($parameterNumber, $typeHint) {
 
-		$reflectionClass = new \ReflectionClass(new StubAccessTypesClass());
-
-		foreach ($reflectionClass->getMethods() as $method) {
-			if ($method->getName() == $methodName) {
-				$this->assertEquals(
-					 $accessType,
-						 $this->parameterParser->setParameter($method)->getAccessType()
-				);
-
-				return;
-			}
-		}
-
-		$this->markTestSkipped('Method was not found');
-	}*/
+		$reflectionParameter = new \ReflectionParameter(['Tests\Stubs\StubAccessTypesClass', 'testParameters'], $parameterNumber);
+		$this->assertEquals(
+			 $typeHint,
+				 $this->parameterParser->setParameter($reflectionParameter)->getTypeHint()
+		);
+	}
 
 	/**
 	 * @covers ::parse
