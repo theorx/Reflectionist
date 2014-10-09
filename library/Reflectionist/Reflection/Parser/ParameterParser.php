@@ -60,13 +60,11 @@ class ParameterParser extends AbstractParser {
 	/**
 	 * @author   Lauri Orgla <TheOrX@hotmail.com>
 	 *
-	 * @param $parameter
-	 *
-	 * @internal param \ReflectionProperty $property
+	 * @param \ReflectionParameter $parameter
 	 *
 	 * @return $this
 	 */
-	public function setParameter($parameter) {
+	public function setParameter(\ReflectionParameter $parameter) {
 
 		$this->parameter = $parameter;
 

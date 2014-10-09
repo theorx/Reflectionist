@@ -2,10 +2,10 @@
 
 namespace Tests\Stubs;
 
-/**
- * Class StubAccessTypesClass
- * @package Tests\Stubs
- */
+	/**
+	 * Class StubAccessTypesClass
+	 * @package Tests\Stubs
+	 */
 /**
  * Class StubAccessTypesClass
  * @package Tests\Stubs
@@ -36,6 +36,16 @@ class StubAccessTypesClass {
 	 * @var string
 	 */
 	protected static $protectedStaticProperty = 'protected static property';
+
+	/**
+	 * @param callable $callable
+	 * @param array    $array
+	 * @param          $normal
+	 * @param \PDO     $pdoObject
+	 */
+	public function testParameters(Callable $callable, array $array, $normal, \PDO $pdoObject) {
+
+	}
 
 	/**
 	 *
