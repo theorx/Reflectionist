@@ -15,25 +15,21 @@ Installation
 ------------
 
 ```sh
-
 $ git clone https://github.com/theorx/Reflectionist.git
 
 $ ./composer.phar update
 
 $ ./composer.phar dump-autoload -o
-
 ´´´
 
 Usage
 -----
 
 ```php
-<?php
 
 require(__DIR__.'/vendor/autoload.php');
 
 $analyzer = new Reflectionist\Analyzer();
 
 $result = $analyzer->addClass('vendor\ns\subns\class')->analyze()->getResults();
-
 ´´´
