@@ -3,6 +3,7 @@
 namespace Tests\Reflectionist;
 
 use \Reflectionist\Analyzer;
+use Reflectionist\Factory\Factory;
 
 /**
  * Class AnalyzerTest
@@ -60,5 +61,38 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase {
 
 		$classParser = $this->analyzer->getClassParser();
 		$this->assertInstanceOf('Reflectionist\Reflection\Parser\ClassParser', $classParser);
+	}
+
+	/**
+	 * @covers ::setClasses
+	 * @covers ::getClasses
+	 */
+	public function testGetSetClassesReturnsClasses() {
+
+		$data = ['class1', 'class2', 'class3'];
+		$this->analyzer->setClasses($data);
+		$this->assertEquals($data, $this->analyzer->getClasses());
+	}
+
+	/**
+	 * @covers ::setClassParser
+	 * @covers ::getClassParser
+	 */
+	public function testSetClassParser() {
+
+		$classParser = Factory::getClassParser();
+		$this->analyzer->setClassParser($classParser);
+		$this->assertEquals($classParser, $this->analyzer->getClassParser());
+	}
+
+	/**
+	 * @covers ::addClasses
+	 * @covers ::getClasses
+	 */
+	public function testAddClassesAndTestAppending() {
+
+		$this->analyzer->addClasses(['a', 'b']);
+		$this->analyzer->addClasses(['c', 'd']);
+		$this->assertEquals(['a', 'b', 'c', 'd'], $this->analyzer->getClasses());
 	}
 }

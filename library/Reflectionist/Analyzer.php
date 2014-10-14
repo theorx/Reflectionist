@@ -78,7 +78,7 @@ class Analyzer {
 	 */
 	public function addClass($class) {
 
-		$this->setClasses($this->getClasses() + [$class]);
+		$this->setClasses(array_merge($this->getClasses(), [$class]));
 
 		return $this;
 	}
