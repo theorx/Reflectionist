@@ -1,19 +1,22 @@
 ## Reflectionist ##
+Reflectionist is a library for class analysis, with this library it is possible to get
+meta info about given class and use it to create any kind of custom documentation / automation from
+php docblock annotations (i.e @keyword ). Also gives information about class type hints inside class methods.
+
+This library is based on Reflection classes so no internal tokenizer is used.
+We advise you to use this class with caching. At the moment this library does not support caching out of box.
 
 #Author#
 --------
-
 - Lauri Orgla
 
 #Requirements#
 ------------
-
 Reflectionist requires PHP 5.5 ( other versions not tested yet ) with Reflection module.
 
 
 Installation
 ------------
-
 ```sh
 $ git clone https://github.com/theorx/Reflectionist.git
 
@@ -25,7 +28,6 @@ $ ./composer.phar dump-autoload -o
 
 Usage
 -----
-
 ```php
 require(__DIR__.'/vendor/autoload.php');
 
@@ -36,15 +38,10 @@ $result = $analyzer->addClass('vendor\ns\subns\class')->analyze()->getResults();
 
 Example input
 -------------
-
 ```php
 <?php
 
 namespace Reflectionist;
-
-	/**
-	 * TODO: Add method for reading classes from files. But the namespace would also have to be correct after reading
-	 */
 
 /**
  * Class Analyzer
