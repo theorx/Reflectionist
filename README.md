@@ -213,8 +213,7 @@ class Analyzer {
 Example output
 --------------
 
-```php
-
+```html
 Array
 (
     [Reflectionist\Analyzer] => Array
