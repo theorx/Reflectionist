@@ -1,5 +1,5 @@
 {
-    "name": "Reflectionist\\Reflectionist",
+    "name": "Reflectionist/Reflectionist",
     "type": "library",
     "description": "Class analyzer for php 5.5",
     "keywords": ["reflection", "reflectionist", "phpdoc", "annotation"],
